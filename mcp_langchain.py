@@ -2,7 +2,6 @@
 Steps 3-4 of the lab: load MCP tools into LangChain and run a
 Document Analysis Agent against them.
 
-Run with: python mcp_langchain.py
 """
 
 import asyncio

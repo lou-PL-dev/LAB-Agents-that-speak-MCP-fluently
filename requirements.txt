@@ -9,6 +9,7 @@ langchain
 langchain-openai
 langgraph
 python-dotenv
+mcp < 2.0
 
 # data_prep.py dependencies
 pdfplumber

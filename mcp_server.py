@@ -8,8 +8,7 @@ context window or force the agent to guess where to look. Since
 data_prep.py already split both documents into chunks tagged with their
 source, page number, and legal structure (article/recital/chapter/annex),
 exposing a *search* tool over those chunks keeps every retrieval step
-small, targeted, and traceable back to an exact page/article for
-lab_proof.md.
+small, targeted.
 
 Search here is a simple keyword-overlap scorer (no embeddings, no extra
 API calls).
