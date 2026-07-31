@@ -1,5 +1,3 @@
-"""Configuration constants for the MCP lab (paths, chunking, source labels)."""
-
 from pathlib import Path
 
 # --- Paths ---

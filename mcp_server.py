@@ -1,8 +1,8 @@
 """
-MCP server (Step 2 of the lab) exposing the chunked documents from
+MCP server exposing the chunked documents from
 chunks.jsonl as tools, instead of raw filesystem access.
 
-Why not the plain filesystem MCP server: the EU AI Act is a 144-page PDF.
+The EU AI Act is a 144-page PDF.
 Handing an agent a raw "read_file" tool on it would either blow the
 context window or force the agent to guess where to look. Since
 data_prep.py already split both documents into chunks tagged with their
@@ -12,8 +12,7 @@ small, targeted, and traceable back to an exact page/article for
 lab_proof.md.
 
 Search here is a simple keyword-overlap scorer (no embeddings, no extra
-API calls) - intentionally minimal so the MCP mechanics stay the focus.
-Run standalone with: python mcp_server.py
+API calls).
 """
 
 import json

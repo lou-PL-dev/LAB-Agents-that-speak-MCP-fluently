@@ -10,7 +10,7 @@ langchain-openai
 langgraph
 python-dotenv
 
-# data_prep.py dependencies (reused from the RAG lab)
+# data_prep.py dependencies
 pdfplumber
 tiktoken
 langchain-text-splitters
