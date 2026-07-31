@@ -1,8 +1,12 @@
+> **Reviewer start here:** [`lab_proof.md`](./lab_proof.md) 
+
 # Agents that speak MCP fluently
 
 A small LangChain agent that answers questions about the EU AI Act and a
 podcast on the EU HLEG Ethics Guidelines for Trustworthy AI, using an MCP server 
 for retrieval instead of raw file access.
+
+> Note: `input/` (source PDFs/transcripts) is gitignored and not committed — add your own source documents there before running `data_prep.py`. I used the Podcast transcript and PDF from the previous lab eu_ai_act.pdf.
 
 ## Setup
 

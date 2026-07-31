@@ -153,3 +153,7 @@ evidence. Both failures were only visible because the trace shows the
 actual chunk_ids and scores retrieved — confirming the value of keeping
 retrieval inspectable rather than trusting the final answer at face
 value.
+
+## Step 7: MCP vs. direct API
+
+This lab uses MCP instead of calling search_chunks as a plain Python function. For a single-agent, single-source setup like this one, direct integration would have been simpler — one less process to spawn, no stdio transport overhead, no protocol translation layer. MCP earns its cost here mainly as a demonstration of the standard: the same search_chunks/list_sources/get_chunk tools could be dropped into any MCP-compatible client (Claude Desktop, another agent framework) with zero changes, whereas a hand-rolled function is tied to this LangChain agent alone. For a one-off lab, direct API calls would win on simplicity; MCP wins if you expect to reuse or expose this retrieval layer elsewhere.
