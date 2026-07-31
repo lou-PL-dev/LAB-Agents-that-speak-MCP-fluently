@@ -1,0 +1,16 @@
+# Pinned: langchain-mcp-adapters 0.3.1 requires mcp>=1.24.0, but as of this
+# writing it is NOT yet compatible with mcp 2.0.0 (transport API changed).
+# If a newer langchain-mcp-adapters release fixes that, mcp can be
+# unpinned/upgraded together with it.
+mcp==1.29.0
+
+langchain-mcp-adapters==0.3.1
+langchain
+langchain-openai
+langgraph
+python-dotenv
+
+# data_prep.py dependencies (reused from the RAG lab)
+pdfplumber
+tiktoken
+langchain-text-splitters
