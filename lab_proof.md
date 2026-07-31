@@ -100,6 +100,27 @@ real illustration of a Resources/Tools design trade-off: giving a model
 both a resource *and* a tool over the same content doesn't guarantee
 it'll prefer the free one.
 
+## Additional testing (4 more queries, beyond the main test query)
+
+To avoid over-indexing on one repeated query, four different query types
+were tested against the full agent:
+
+| Query type | Result |
+|---|---|
+| Out-of-scope ("EU AI Act on cryptocurrency mining?") | Agent correctly said the Act doesn't cover this, despite the tool returning 3 weak (score 1) matches - the system prompt's "say so explicitly instead of guessing" instruction worked at the agent level even where the tool's scorer couldn't distinguish relevance |
+| Resource-only ("what is red teaming and why does the host like it?") | Answered entirely from the podcast-transcript *resource* in context - zero tool calls, confirming Resources can fully replace a tool call when the content is already in context and the query doesn't cue "search the documents" |
+| Narrow legal query (migration/asylum AI systems) | Correctly retrieved and cited the exact relevant recitals (59, 60) on specific legal language, not just the broad terms used in the main test query |
+| Multi-hop (podcast's "human in the loop" -> AI Act's oversight requirement) | Correctly connected a concept named in the podcast to the Act's actual human oversight recitals (26, 65, 71) - genuine cross-source reasoning, properly cited |
+
+**Revised takeaway**: the earlier "fairness/accountability" wrong answer
+(see below) looks more like a one-off triggered by a specific vague
+query than a systemic failure - none of these four additional queries
+reproduced anything similar. The underlying tool-level limitation (no
+relevance threshold in `search_chunks`) is still real and worth fixing
+for production use, but in practice the system prompt's explicit
+"admit when there's no evidence" instruction acted as an effective
+safety net at the agent level in every test run here.
+
 ## Failure / limitation
 
 Two failure cases were found, both stemming from the same root cause:

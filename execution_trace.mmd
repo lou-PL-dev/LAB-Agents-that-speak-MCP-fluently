@@ -1,12 +1,8 @@
 flowchart TD
-    n0(["Query: According to these documents, what are the three comp..."])
-    n1{{"Agent decides: search_chunks(query=three components of trust..."}}
+    n0(["Query: The podcast mentions human in the loop as a governanc..."])
+    n1{{"Agent decides: search_chunks(query=human oversight, source=e..."}}
     n0 --> n1
-    n2{{"Agent decides: search_chunks(query=legal obligations, source..."}}
+    n2["Evidence from search_chunks: 3 chunk(s): eu_ai_act_p008_0, e..."]
     n1 --> n2
-    n3["Evidence from search_chunks: 3 chunk(s): podcast_transcript_..."]
+    n3(["Final answer: Yes, the EU AI Act does impose a requirement f..."])
     n2 --> n3
-    n4["Evidence from search_chunks: 3 chunk(s): eu_ai_act_p001_2, e..."]
-    n3 --> n4
-    n5(["Final answer: According to the podcast transcript, the three..."])
-    n4 --> n5

@@ -183,4 +183,5 @@ async def run_agent(query: str) -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(run_agent(TEST_QUERY))
+    query = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else TEST_QUERY
+    asyncio.run(run_agent(query))
