@@ -127,5 +127,33 @@ def get_chunk(chunk_id: str) -> str:
     return json.dumps({"message": f"No chunk found with id {chunk_id}"})
 
 
+# --- Resources (Step 5 of the lab) ---
+#
+# Unlike tools, resources aren't "called" by the model with arguments -
+# the client fetches them upfront and decides how to use them (e.g. drop
+# straight into the system prompt as background context). They're for
+# data that's cheap enough to just always have on hand.
+
+@mcp.resource("docs://sources")
+def sources_resource() -> str:
+    """Read-only overview of available document sources and chunk counts.
+    Same information as the list_sources tool, but as a resource: no tool
+    call needed, the client can just load this once and keep it around."""
+    return list_sources()
+
+
+@mcp.resource("docs://podcast-transcript")
+def podcast_transcript_resource() -> str:
+    """
+    The full podcast transcript, verbatim. At ~16KB this is small enough
+    to keep in context permanently as background - unlike the 144-page
+    EU AI Act, which stays behind the search_chunks tool because loading
+    it wholesale would blow the context window. This contrast is exactly
+    why MCP distinguishes Resources (cheap, always-on context) from Tools
+    (targeted, on-demand retrieval).
+    """
+    return config.PODCAST_FILE.read_text(encoding="utf-8")
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

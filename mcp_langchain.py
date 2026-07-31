@@ -16,15 +16,26 @@ from langchain.agents import create_agent
 
 load_dotenv()  # expects OPENAI_API_KEY in .env
 
-SYSTEM_PROMPT = """You are a document analysis assistant with access to two \
+SYSTEM_PROMPT_TEMPLATE = """You are a document analysis assistant with access to two \
 sources: the EU AI Act (a legal regulation) and a podcast transcript that \
 discusses the EU HLEG Ethics Guidelines for Trustworthy AI.
 
-Always use the search_chunks tool to find evidence before answering - never \
-answer from general knowledge alone. When you answer, cite which source \
-(and page/article/recital, if given) each piece of your answer came from. \
-If the tools don't return relevant evidence for something, say so explicitly \
-instead of guessing."""
+Below is the full podcast transcript, loaded as background context via an \
+MCP *resource* (not a tool call) - it's small enough to always have on \
+hand. The EU AI Act is 144 pages, far too large for that, so it stays \
+behind the search_chunks tool instead.
+
+--- PODCAST TRANSCRIPT (background context, loaded via MCP resource) ---
+{podcast_transcript}
+--- END BACKGROUND CONTEXT ---
+
+For anything from the EU AI Act, always use the search_chunks tool to find \
+evidence before answering - never answer from general knowledge alone. For \
+the podcast transcript, you can answer directly from the background context \
+above. When you answer, always cite which source (and page/article/recital, \
+if given) each piece of your answer came from. If neither the background \
+context nor the tools have relevant evidence for something, say so \
+explicitly instead of guessing."""
 
 def _mermaid_escape(text: str, limit: int = 60) -> str:
     """Truncate and sanitize text so it's safe to embed as a Mermaid node label."""
@@ -134,10 +145,19 @@ async def run_agent(query: str) -> None:
     )
 
     tools = await client.get_tools()
-    print(f"Loaded {len(tools)} MCP tools: {[t.name for t in tools]}\n")
+    print(f"Loaded {len(tools)} MCP tools: {[t.name for t in tools]}")
+
+    resource_blobs = await client.get_resources(
+        "document_search", uris=["docs://podcast-transcript"]
+    )
+    podcast_transcript = resource_blobs[0].as_string()
+    print(f"Loaded 1 MCP resource: docs://podcast-transcript "
+          f"({len(podcast_transcript)} chars, no tool call needed)\n")
+
+    system_prompt = SYSTEM_PROMPT_TEMPLATE.format(podcast_transcript=podcast_transcript)
 
     model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-    agent = create_agent(model, tools, system_prompt=SYSTEM_PROMPT)
+    agent = create_agent(model, tools, system_prompt=system_prompt)
 
     result = await agent.ainvoke({"messages": [{"role": "user", "content": query}]})
 

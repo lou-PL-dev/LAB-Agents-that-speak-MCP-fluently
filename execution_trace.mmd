@@ -2,11 +2,11 @@ flowchart TD
     n0(["Query: According to these documents, what are the three comp..."])
     n1{{"Agent decides: search_chunks(query=three components of trust..."}}
     n0 --> n1
-    n2{{"Agent decides: search_chunks(query=trustworthy AI legal obli..."}}
+    n2{{"Agent decides: search_chunks(query=legal obligations, source..."}}
     n1 --> n2
     n3["Evidence from search_chunks: 3 chunk(s): podcast_transcript_..."]
     n2 --> n3
     n4["Evidence from search_chunks: 3 chunk(s): eu_ai_act_p001_2, e..."]
     n3 --> n4
-    n5(["Final answer: According to the podcast transcript discussing..."])
+    n5(["Final answer: According to the podcast transcript, the three..."])
     n4 --> n5

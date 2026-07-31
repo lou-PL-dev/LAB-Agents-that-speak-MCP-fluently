@@ -1,25 +1,8 @@
 # Agents that speak MCP fluently
 
 A small LangChain agent that answers questions about the EU AI Act and a
-podcast on the EU HLEG Ethics Guidelines for Trustworthy AI, using an MCP
-(Model Context Protocol) server for retrieval instead of raw file access.
-
-## Why a custom MCP server, not the plain filesystem one
-
-The lab recommends starting with a filesystem MCP server. Here, one of the
-two documents is a 144-page PDF, so a raw `read_file` tool on it would
-either blow the context window or force the agent to guess where to look.
-Instead:
-
-- `data_prep.py` (reused from an earlier RAG lab) extracts the PDF page by
-  page, chunks both documents, and tags each chunk with its source, page
-  number, and legal structure (article / recital / chapter / annex).
-- `mcp_server.py` exposes a `search_chunks` tool over those chunks (simple
-  keyword-overlap scoring, no embeddings) plus `list_sources` and
-  `get_chunk`.
-- `mcp_langchain.py` connects a LangChain/LangGraph agent to that server
-  and answers one test query, printing the full trace: which tool was
-  called, what evidence came back, and the final answer.
+podcast on the EU HLEG Ethics Guidelines for Trustworthy AI, using an MCP server 
+for retrieval instead of raw file access.
 
 ## Setup
 
@@ -49,6 +32,11 @@ You can also run the MCP server standalone to inspect its tools:
 ```bash
 python3 mcp_server.py
 ```
+
+Running `mcp_langchain.py` also saves the agent's internal graph (model
+node <-> tools node loop) to `agent_graph.mmd` (Mermaid source - paste
+into https://mermaid.live to view) and `agent_graph.png` if your machine
+can reach the rendering service.
 
 ## Files
 
